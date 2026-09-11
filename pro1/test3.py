@@ -11,7 +11,7 @@ print('첫글자 유무 : ', s.startswith('s'))
 print()
 ss = 'mbc'
 print(ss, id(ss))
-ss='abc'
+ss = 'abc'
 print(ss, id(ss))
 
 print('인덱싱 / 슬라이싱') # s = sequence 에서 찾아냄
