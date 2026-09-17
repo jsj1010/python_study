@@ -64,9 +64,10 @@
             for(let a = 2; a < 10; a++){
                 document.write("<tr>");
                 for(let b = 1; b < 10; b++){
-                    document.write("<td>");
-                    document.write(a+ "*" + b + "=" + a*b);
-                    document.write("<td>");
+                    // document.write("<td>");
+                    // document.write(a+ "*" + b + "=" + a*b);
+                    // document.write("<td>");
+                    document.write('<td>${a}*${b}=${a*b}&nbsp;&nbsp;</td>'); // 템플릿 문자열
                 }
             }
             document.write("</table>");
