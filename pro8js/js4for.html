@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
     <h2>* 반복문 for (초기값; 조건; 증가값;) *</h2>
@@ -60,18 +61,18 @@
             document.write(sum);
 
             document.write("<hr>2~9 구구단 출력 - table에 출력<br>");
-            document.write("<table>");
+            document.write("<table class='table table-bordered border-dark'>");
             for(let a = 2; a < 10; a++){
                 document.write("<tr>");
                 for(let b = 1; b < 10; b++){
                     // document.write("<td>");
                     // document.write(a+ "*" + b + "=" + a*b);
                     // document.write("<td>");
-                    document.write('<td>${a}*${b}=${a*b}&nbsp;&nbsp;</td>'); // 템플릿 문자열
+                    document.write(`<td>${a}*${b}=${a*b}&nbsp;&nbsp;</td>`); // 템플릿 문자열
                 }
+                document.write("</tr>")
             }
             document.write("</table>");
-
     </script>
 </body>
 </html>
