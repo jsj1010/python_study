@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--bootstrap 제공 css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <script>
+
+        /*
+        C:\User\사용자명\AppData\local\google\Chrome\User
+        /*
+        window.onload = () => {
+            document.querySelector("#btnSend").onclick = chkDataFunc;
+            document.querySelector("#btnClear").onclick = clskFunc;
+        }*/
+        document.addEventListener("DOMContentLoaded", () => { //DOM 생성 완료(이미지 등은 천천히) 후
+            document.querySelector("#btnSend").onclick = chkDataFunc;
+            document.querySelector("#btnClear").onclick = clskFunc;
+        })
+
+        function chkDataFunc(event){
+            // alert("a")
+            event.preventDefault(); // submit
+
+            // 입력 자료 오류 검사 - 아래 검사 후 이상이 없으면 서버로 자료 전송
+            if(frm.name.value === "" || isNaN(frm.name.value) === false){
+                // isNaN("123"): false, isNaN("abc") : true -- 숫자가 아닌지 검사
+                frm.name.focus(); // frm.name으로 커서를 이동
+                alert("이름을 입력하시오. 문자만 허용")
+                return; // 함수 탈출
+            }
+
+            if(frm.id.value.length < 3){
+                frm.id.focus();
+                alert("id는 3글자 이상 입력하세요");
+                return;
+            }
+            // 정규표현식
+            let re_str = "123Abc가나다45김 asdf1 23킬동" 
+            console.log(re_str.match(/[1]/));
+            console.log(re_str.match(/[1]/g));  // g:global - ['1', '1']
+            console.log(re_str.match(/[0-9]/g)); // 숫자만 - ['1','2','3','4','5','1','2','8,'9']
+            console.log(re_str.match(/\d/g)); // 숫자만
+            console.log(re_str.match(/[0-9 ]+/g)); // 숫자만, 공백만 ['123','45',' ', '1 23']
+            console.log(re_str.match(/[가나]/g)); // 한글 가,나만 해당 - ['가','나']
+            console.log(re_str.match(/[가-힣]+/g)); // 한글 연속적 - ['가나다','김','길동']
+            console.log(re_str.match(/\d{2}/g)); // 숫자 2글자 묶음만 -['12','45','23']
+            console.log(re_str.match(/\d{2,3}/g)); // 숫자 2글자 또는 3글자 묶음만 -['123', '45', '23']
+
+            // email 입력 자료 검사
+            let email_regex = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+            if(!frm.email.value.match(email_regex)){
+                frm.email.focus();
+                alert("email은 형식에 맞게 입력하세요");
+                return;
+            }
+
+            // 나이
+            let age_regex = /^[0-9]{1,2}$/;
+            if(!frm.age.value.match(age_regex)){
+                frm.id.focus();
+                alert("나이는 숫자만 입력하세요");
+                return;
+            }
+            // alert("성공");
+            frm.action="my.py";
+            frm.method="get"
+            frm.submit();  //입력자료 검사 후 이상이 없으면 서버로 자료 전송
+
+        }
+
+        function clskFunc(){
+            // alert("b")
+        }
+    </script>
+
+
+</head>
+<body>
+<h2>*고객 자료 입력*</h2>
+<!--
+<form name="frm" action ="서버호출명" method="get"></form>
+-->
+<form name="frm">
+<table class="table table-dark table-hover">
+    <tr>
+        <td>이 름</td>
+        <td><input type="text" name="name" id="name" value="신기해"> </td>
+    </tr>
+    <tr>
+        <td>아이디</td>
+        <td><input type="text" name="id" id="id" value="kor" placeholder="3글자 이상" value="good"> </td>
+    </tr>
+    <tr>
+        <td>이메일</td>
+        <td><input type="email" name="email" id="email" value="abc@abc.com"> </td>
+    </tr>
+    <tr>
+        <td>나 이</td>
+        <td><input type="text" name="age" id="age"> </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center;">
+            <input type = "submit" id = "btnSend" value="자료 전송" class = "btn btn-primary">
+            <input type = "reset" id = "btnClear" value="자료 삭제" class = "btn btn-info">
+        </td>
+    </tr>
+</table>
+</form>
+</body>
+</html>
