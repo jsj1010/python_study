@@ -57,9 +57,9 @@ def buser_list():
 
     return jsonify ({"ok":True, "data":rows}) 
 
-# 직원 부서 조회
+#  부서별 직원 조회
 @app.get("/acorn/buser/<int:no>")
-def buser_jikwon_list(no):
+def buser_jikwon_list(bno):
     sql = """
         SELECT jikwonno, jikwonname, jikwonjik, jikwonpay, YEAR(jikwonibsail) AS ibsayear
         FROM jikwon
@@ -68,7 +68,7 @@ def buser_jikwon_list(no):
 
     with get_connFunc() as conn:
         with conn.cursor() as cur:
-            cur.execute(sql, (no,))
+            cur.execute(sql, (bno,))
             rows = cur.fetchall()
 
     return jsonify({"ok": True, "data": rows})
