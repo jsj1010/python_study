@@ -53,3 +53,76 @@ print(obj3,type(obj3)) # 마우스 5000...
 
 obj.name = '상품가격'
 print(obj3) # ... 모니터 550000 NAME: 상품가격, dtype: int64 
+
+import pandas as pd
+
+print('---------------')
+# DataFrame :
+# 표모양(2차원 형태 자료)의 자료구조로 여러 개의 칼럼을 갖는다. (Series가 모인)
+# 각 칼럼은 서로 다른 종류의 값을 기억할 수 있다.
+# 같은 길이의 리스트에 담긴 dict type의 데이터를 이용해 DataFrame 객체 생성.
+
+df = pd.DataFrame(obj3)
+print(df, type(df)) # class 'pandas.DataFrame'
+
+print()
+data = {
+    'irum': ['홍길동', '한국인', '신기해', '공기밥', '한가해'],
+    'juso': ('역삼동', '신당동', '역삼동', '역삼동', '신사동'),
+    'nai': [23, 25, 33, 30, 35],
+}
+frame = pd.DataFrame(data) # dict -> DataFrame
+print(frame)
+
+print()
+print(frame['irum'], type(frame['irum'])) # class 'pandas.Series'
+print([frame.irum, type(frame.irum)]) # 위와 같다 (상동)
+
+print(DataFrame(data=data, columns=['juso','irum','nai'])) # 열(colume) 순서 변경
+
+# NaN (Not a Number, 결측치 값이 없거나 알 수 없는 Missing value를 말함)
+frame2 = pd.DataFrame(data, 
+            columns=['irum','nai','juso','tel'], index=['a','b','c','d','e'])
+print(frame2)
+
+frame2['tel'] = '111-1111'
+print(frame2)
+
+print()
+val = pd.Series(['222-2222','333-3333', '444-4444'], index = ['b','c','e'])
+print(val)
+
+print()
+frame2['tel'] =val # 기존 자료 덮어쓰기
+print(frame2)
+
+print()
+print(frame.T) # 전치
+
+print()
+print(frame2.values, type(frame2.values))  # class 'numpy.ndarray'>
+print(frame2.values[0,1]) # 23
+print(frame2.values[0:2]) # [['홍길동' 23 '역삼동' nan]]
+
+print()
+# 삭제
+# frame3 = frame2.drop('d') # 행삭제
+frame3 = frame2.drop('d', axis=0)
+print(frame3)
+
+# frame4 = frame2.drop('tel') # 행삭제
+frame4 = frame2.drop('tel', axis=1)
+print(frame4)
+
+print('---------------------------')
+print(frame2)
+print(frame2.sort_index(axis=0, ascending=False)) # 행 단위 정렬
+print(frame2.sort_index(axis=1, ascending=True)) # 열 단위 정렬
+print()
+print(frame2.rank(axis=0)) # 순위를 매김
+#    irum  nai  juso  tel
+# a   5.0  1.0   4.0  NaN
+# b   4.0  2.0   1.0  1.0
+# c   2.0  4.0   4.0  2.0
+# d   1.0  3.0   4.0  NaN
+# e   3.0  5.0   2.0  3.0
