@@ -67,3 +67,59 @@ def summaryFunc(gr):
         'min':gr.min(),
     }
 print(datas.apply(summaryFunc)) # apply : 함수 실행용 함수
+
+print('\nmerge : DataFrame 객체 병합 - 공통 칼럼 기준 - RDBMS의 join처럼')
+df1 = pd.DataFrame({'data1':range(7), 'key':['b','b','a','c','a','a','b']})
+print(df1)
+df2 = pd.DataFrame({'key':['a','b','d'],'data2':range(3)})
+print(df2)
+print()
+print(pd.merge(df1, df2, on='key', how='inner')) # 교집합 (inner join)
+print()
+print(pd.merge(df1, df2, on='key', how='outer')) # (full outer join)
+print()
+print(pd.merge(df1, df2, on='key', how='left')) # (left outer join)
+print()
+print(pd.merge(df1, df2, on='key', how='right')) # (right outer join)
+
+print()
+df3 = pd.DataFrame({'key2':['a','b','d'],'data2':range(3)})
+print(df3)
+print(df1)
+print(pd.merge(df1, df3, left_on='key', right_on='key2'))
+
+print('--- concat : 상하 또는 좌우로 이어 붙이기 ---')
+print(pd.concat([df1, df3], axis=0)) # 행 단위
+print()
+print(pd.concat([df1, df3], axis=1)) # 열 단위
+print()
+
+print('\nPIVOT 연산 : pivot과 groupby 명령의 중간적 성격')
+# pivot : 데이터 열 중에서 두개의 열(key)을 사용해 데이터의 행열을 재구성
+data = {'city':['강남','강북','강남','강북'],
+        'year':[2000,2001,2002,2002],
+        'pop':[3.3, 2.5, 3.0, 2.0]
+        }
+df = pd.DataFrame(data)
+print(df)
+print(df['pop'].describe())
+print()
+print(df.pivot_table(index=['city']))
+print(df.pivot_table(index=['city'], aggfunc='mean')) # 상동
+print(df.pivot_table(index=['city','year'], aggfunc=[len,'sum'])) 
+print()
+print(df.pivot_table(index=['city'], values='pop'))
+print(df.pivot_table(index=['city'], values='pop', aggfunc='mean')) 
+print(df.pivot_table(index=['city'], values='pop', aggfunc=len)) 
+print()
+# 구조 재구성 : year:행, city:열, pop:계산값
+print(df.pivot_table(index=['year'], values='pop', columns=['city'])) 
+print(df.pivot_table(index=['year'], values='pop', columns=['city'], margins=True)) 
+print(df.pivot_table(index=['year'], values='pop', columns=['city'], margins=True, fill_value=0)) 
+
+print()
+hap = df.groupby(['city'])
+print(hap)
+print(hap.sum())
+print(df.groupby(['city']).sum())
+print(df.groupby(['city']).mean())
