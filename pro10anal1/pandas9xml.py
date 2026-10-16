@@ -46,4 +46,5 @@ for local in weather.findall("local"):
     name = local.text.strip() # 지역명 (태그 안에 문자열)
     print(name, local.attrib)
     desc = local.get("desc") # 날씨 (요소의 desc 속성값)
+    ta =local.get("ta") # 온도 (요소의ta속성값)
     print(f"{name} 지역 날씨는{desc}")
