@@ -14,6 +14,8 @@ config = {
     'port':3306,
     'charset':'utf8'
 }
+conn = None
+cursor = None
 try:
     conn = pymysql.connect(**config)
     cursor = conn.cursor()
@@ -36,7 +38,7 @@ try:
     print("DataFrame의 자료를 csv 파일로 저장")
     cursor.execute(sql)  # 이미 읽은 자료는 DataFrame에 한 행씩 처리 완료되어 RAM에는 자료소진됨.
 
-    with open('pandas16.csv', mode='w', encoding='utf-8') as fobj:
+    with open('pandas16.csv', mode='w', encoding='utf-8', newline='') as fobj:
         writer = csv.writer(fobj)
         for row in cursor.fetchall():
             writer.writerow(row)
@@ -72,5 +74,7 @@ try:
 except Exception as e:
     print('처리 오류 : ', e)
 finally:
-    cursor.close()
-    conn.close()
+    if cursor is not None:
+        cursor.close()
+    if conn is not None:
+        conn.close()

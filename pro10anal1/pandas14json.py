@@ -50,7 +50,7 @@ print()
 datas = []
 for ele in libData:
     name = ele.get("LBRRY_NAME")
-    tel = ele.get("LBRRY_NAME")
+    tel = ele.get("TEL_NO")
     addr = ele.get("ADRES")
     print(name, " ",tel," ",addr)
     datas.append([name, tel, addr])

@@ -36,7 +36,7 @@ print(soup2.find("p").string)
 # print(soup2.find(["p","h1"]).string) # 두 태그 중 먼저 나오는 태그가 선택
 print(soup2.find(["p","h1"]).get_text()) # 하위 태그에 있는 텍스트 까지 추출
 print(soup2.find("p", id="my").string)
-print(soup2.find(id="title").get_text)
+print(soup2.find(id="title").get_text())
 print(soup2.find(class_ = "our").string)
 print(soup2.find(attrs={"class": "our"}).string)
 print(soup2.find(attrs={"id": "my"}).string)

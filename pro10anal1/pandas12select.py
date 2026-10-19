@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 html_page =  """
 <html><body>
 <div id="hello">
-    <a href="https://www.naver.com/"naver</a>
+    <a href="https://www.naver.com/">naver</a>
     <span>
         <a href="https://www.daum.net/">daum</a>
     </span>
@@ -61,7 +61,7 @@ kyochon = requests.get(url=url, headers=headers)
 
 soup2 = BeautifulSoup(kyochon.text, "html.parser")
 # 메뉴명 얻기
-names = soup2.select("dl.txt > dt")
+names = [tag.get_text(strip=True) for tag in soup2.select("dl.txt > dt")]
 # print(names)
 prices = [int(tag.text.strip().replace(",",""))
         for tag in soup2.select("p.money strong")]

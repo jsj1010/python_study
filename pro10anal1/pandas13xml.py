@@ -5,7 +5,7 @@ with open("pandas9my.xml", mode="r", encoding="utf-8") as f:
     xmlfile = f.read()
     print(xmlfile, type(xmlfile)) # <class 'str'>
 
-soup = BeautifulSoup(xmlfile, "lxml")
+soup = BeautifulSoup(xmlfile, "xml")
 print(type(soup)) # <class 'bs4.BeautifulSoup'>
 
 itemTag = soup.find_all("item")
