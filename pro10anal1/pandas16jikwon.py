@@ -56,7 +56,7 @@ try:
     print()
     print('건수 : ', df2['이름'].count(),' ', len(df2)) # 30   30
     print('부서별 인원수:', df2['부서'].value_counts())
-    print('연봉 7000 이상:', df2.loc[df2['연봉'] >= 8000])
+    print('연봉 8000 이상:', df2.loc[df2['연봉'] >= 8000])
 
     # 교차표 출력(성별, 직급별 인원수)
     ctab = pd.crosstab(df2['성별'], df2['직급'], margins=True)
