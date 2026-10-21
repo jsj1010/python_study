@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>직원 자료, 직급별 연봉 통계</h2>
+    <a href="/">메인 페이지</a>
+    <br><br>
+    <form action="/dbshow" method="get">
+        <label for="dept">부서명:</label>
+        <input type="text" name="dept" placeholder="예)총무부">
+        <button type="submit">조회</button>
+    </form>
+    <hr>
+    <h3>직원 목록</h3>
+    {{jikwondata | safe}}
+
+    <h3>직급별 연봉 총계</h3>
+    {{statsdata | safe}}
+
+    <h3>부서명별 연봉합, 평균</h3>
+    <img src="/static/image/buser_pay.png" alt="부서명별 연봉">
+
+    <h3>성별 직급별 인원수</h3>
+    {{crossdata | safe}}
+
+    <h3>부서별 최고 연봉자</h3>
+    {{topdata | safe}}
+
+    <h3>부서별 직원 비율 계산 : 전체 인원 대비 각 부서 인원 비율</h3>
+    {{ratiodata | safe}}
+
+</body>
+</html>
