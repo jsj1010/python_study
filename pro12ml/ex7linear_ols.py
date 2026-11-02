@@ -54,7 +54,7 @@ print(f'RMSE : {np.sqrt(np.mean(model.resid ** 2)):.4f}') # RMSE : 0.5309 평균
 new_data = pd.DataFrame({'적절성':[3.123, 4.123, 5.123]})
 new_pred = model.predict(new_data)
 print(pd.DataFrame({'적절성':new_data['적절성'], '예측만족도': new_pred}).round(3))
-#      적절성  예측만족도
+#    적절성  예측만족도
 # 0  3.123  3.088
 # 1  4.123  3.827
 # 2  5.123  4.566 
