@@ -5,8 +5,8 @@
 # 참고 : from xgboost import plot_importance
 
 # 데이터 변수 설명 : 총 23개 변수가 사용됨.
-
 # 여기서 종속변수(반응변수)는 class 이고 나머지 22개는 모두 입력변수(설명변수, 예측변수, 독립변수).
+
 # 변수명 변수 설명
 # class      edible = e, poisonous = p
 # cap-shape    bell = b, conical = c, convex = x, flat = f, knobbed = k, sunken = s
