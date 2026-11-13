@@ -3,10 +3,9 @@
 # 미리 지정할 필요가 없으며, 불규칙한 형태와 다양한 밀도를 가진 데이터셋에
 # 특히 적합하다.
 # DBSCAN은 밀도가 다양하거나 모양이 불규칙한 클러스터가 있는 데이터와 같이 모양이
-# 잘 정의되지 않고 이상치가 많은 데이터를 처리 할때 유용하게 사용 가능하다.'
+# 잘 정의되지 않고 이상치가 많은 데이터를 처리할 때 유용하게 사용 가능하다.
 
 import matplotlib.pyplot as plt
-from matplotlib import style
 from sklearn.datasets import make_moons
 from sklearn.cluster import DBSCAN, KMeans
 
@@ -18,7 +17,7 @@ plt.scatter(x[:, 0], x[:, 1], c=y)
 plt.show()
 
 print('KMeans로 군집화')
-km = kMeans(n_clusters=2, init='random', random_state=0)
+km = KMeans(n_clusters=2, init='random', random_state=0)
 pred1 = km.fit_predict(x)
 print('km 예측 군집 id:', pred1[:10])
 
