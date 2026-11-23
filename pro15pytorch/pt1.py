@@ -48,7 +48,7 @@ print(imsi)
 a = torch.tensor([1, 2])
 print(type(a)) # <class 'torch.Tensor'>
 a[0] = 10
-print(a) # tensor([10,  2])
+print(a) # tensor([10.,  2.])
 
 print()
 a = torch.tensor([1, 2])
@@ -58,3 +58,76 @@ print(c)
 d = torch.tensor([3])
 e = c + d   # Broadcast 연산도 가능
 print(e)
+
+print('\npython, numpy, pytorch 간 형변환 가능')
+print(7)
+print(torch.tensor(7)) # 상수 -> 텐서(스칼라)
+print(torch.tensor(7).item()) # 텐서(스칼라) -> 상수
+print(torch.tensor([1, 2]).numpy()) # 텐서 -> numpy
+
+arr = np.array([1, 2])
+torch_arr = torch.tensor(arr)
+print(torch_arr)                # tensor([1, 2])
+print(torch.from_numpy(arr))    # tensor([1, 2])
+
+print('사칙 연산 가능')
+# torch.add()  .subtract()  .multiply()   .divide()
+torch_result = torch.add(torch_arr, 5)
+print(torch_result)
+
+np_result = np.add(torch_result.numpy(),2)
+print(np_result) # [8,9]
+
+print()
+v1 = torch.tensor(1.0)
+print('변경 전 v1 :', v1, id(v1))   # tensor(1.) 2046792579280
+v1.fill_(100)   # 기존 참조값 갱신  copy_(), add_(), sub_(), mul_(), div_() : in_place 연산
+print('변경 후 v1 :', v1, id(v1))   # tensor(100.) 2046792579280
+v1 = 100        # 새로운 객체를 참조
+print('변경 후 v1 :', v1, id(v1))   # 100 140720193466584
+
+print()
+v1 = torch.tensor(1.0)
+print(v1.data_ptr()) # 실제 data 저장위치 출력
+v1.copy_(torch.tensor(123.0))
+print(v1.data_ptr()) 
+print('v1: ', v1)
+
+v2 = torch.ones((2,))
+print('v2 :', v2)
+print(v2.data_ptr())
+v2.copy_(torch.tensor([30.0, 40.0]))
+print('v2 :', v2)
+print(v2.data_ptr())
+
+print()
+aa = torch.zeros((2, 1))
+print('aa :', aa)
+aa.copy_(torch.ones((2, 1)))
+print('aa :', aa)
+aa.add_(torch.tensor([[2.0],[3.0]]))
+print('aa :', aa)
+# sub_() , mul_(), div() 도 동일
+
+print('난수 처리 ----')
+torch.manual_seed(42)  # 고정 난수 재현
+print(torch.rand(1))
+
+# 균등 분포
+print(torch.empty(2).uniform_(0,1))
+print(torch.empty(30000).uniform_(0,1).mean())
+
+# 정규 분포
+print(torch.normal(mean=0.0, std=1.0, size=[3]))
+# print(torch.normal(mean=0.0, std=1.0, size=[30000]).mean())
+
+print()
+# GPU 텐서와 numpy 배열에서 알아둘 점
+# Pytorch GPU 텐서는 GPU 연산과 자동 미분(Autograd)을 지원하지만 ,
+# numpy계열은 cpu연산만 지원 하므로 장치간 메모리 공유동작에 주의
+if torch.cuda.is_available():
+    gpu_tensor = torch.tensor([1,2,3], device='cuda') # gpu에서 텐서 생성
+    np_from_gpu = gpu_tensor.cpu().numpy() # GPU 텐서를 cpu로 이동후 numpy 배열로 변화
+    print(f'gpu 텐서 -> 넘파이 배열로 변환 : {np_from_gpu}')
+else:
+    print('cuda 지원 안함')
