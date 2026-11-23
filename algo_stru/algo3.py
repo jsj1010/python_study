@@ -32,10 +32,10 @@ def ins_sort2(a):
     n = len(a)
     for i in range(1, n): # 두 번째값(index 1)부터 끝까지 차례대로 삽입대상 선택
         key = a[i]
-        j = j - 1 # j를 i바로 왼쪽에 저장
+        j = i - 1 # j를 i바로 왼쪽에 저장
 
         while j>=0 and a[j] > key:
-            a[j + i] == a[j] # 삽입할 공간이 생기도록 값을 우측으로 밀기
+            a[j + 1] = a[j] # 삽입할 공간이 생기도록 값을 우측으로 밀기
             j -= 1 # 그 다음 왼쪽으로 이동하면서 다시 비교
         a[j + 1] = key # 찾은 삽입위치에 key를 저장
         print(a, '---')
