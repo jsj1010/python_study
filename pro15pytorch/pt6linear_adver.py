@@ -41,6 +41,7 @@ print(x_train.shape, x_test.shape)   # (140, 3) (60, 3)
 x_train_tensor = torch.tensor(x_train, dtype=torch.float32)
 x_test_tensor = torch.tensor(x_test, dtype=torch.float32)
 y_train_tensor = torch.tensor(y_train.values, dtype=torch.float32).reshape(-1, 1)
+# y_test_tensor = torch.tensor(y_test.values, dtype=torch.float32).reshape(-1, 1)
 y_test_tensor = torch.tensor(y_test.to_numpy(), dtype=torch.float32).reshape(-1, 1)
 
 # validation dataset을 운영 (20%를 학습 중 검증 데이터로 사용)  --------
@@ -119,13 +120,12 @@ def train_modelFunc(model, train_loader, vali_loader, criterion, optimizer, epoc
 
 # 평가 함수 정의 (test dataset으로)
 def evaluate_modelFunc(model, x_test_tensor, y_test_tensor, criterion):
-    model.eval()    # 평가 모드로 전환 (빼고 되나 관습적으로 적음)
+    model.eval()  # 평가 모드로 전환 (빼고 되나 관습적으로 적음)
     with torch.no_grad():
         pred = model(x_test_tensor)
         loss = criterion(pred, y_test_tensor)
 
     return loss.item(), pred
-
 
 
 print('\n모델 작성 방법 1 : Sequential 클래스 사용 --------')
@@ -151,22 +151,24 @@ history = train_modelFunc(
 
 # 모델 평가
 ev_loss, pred_tensor = evaluate_modelFunc(
-    model=model, x_test_tensor=x_test_tensor, y_test_tensor=y_test_tensor, 
+    model=model, 
+    x_test_tensor=x_test_tensor, y_test_tensor=y_test_tensor, 
     criterion=criterion
 )
-print('ev_loss :', ev_loss)
+print('ev_loss : ', ev_loss)
 
 pre = pred_tensor.numpy()
 actual = y_test_tensor.numpy()
-print('MSE :', ev_loss)
-print('RMSE :', np.sqrt(ev_loss))
-print('설명력:', r2_score(actual, pre))
+print('MSE : ', ev_loss)
+print('RMSE : ', np.sqrt(ev_loss))
+print('설명력 : ', r2_score(actual, pre))
 
-# history 값 확인 
-# print('history vali_loss:', history['vali_loss'])
-# print('history loss:', history['loss'])
+# history 값 확인
+# print('history vali_loss : ', history['vali_loss'])
+# print('history loss : ', history['loss'])
+
 # loss 시각화
-plt.plot(history['vali_loss'],label="vali_loss")
+plt.plot(history['vali_loss'], label="vali_loss")
 plt.plot(history['loss'], label="loss")
 plt.legend()
 plt.show()
@@ -175,10 +177,11 @@ plt.show()
 with torch.no_grad():
     pred_5 = model(x_test_tensor[:5])
 
-print('예측값 :', pred_5.numpy().ravel())
-print('실제값 :', y_test[:5].to_numpy().ravel())
+print('예측값 : ', pred_5.numpy().ravel())
+print('실제값 : ', y_test[:5].values.ravel())
 
-print('\n\n모델 작성방법 2 : nn.Module 클래스를 상속받아 사용 ----------------')
+
+print('\n\n모델 작성 방법 2 : nn.Module 클래스를 상속받아 사용 --------')
 class AdverRegressionModel(nn.Module):
     def __init__(self):
         super().__init__()
@@ -187,10 +190,10 @@ class AdverRegressionModel(nn.Module):
         self.hidden_layer2 = nn.Linear(16, 8)
         self.output_layer = nn.Linear(8, 1)
 
-        self.relu = nn.ReLU() # activation 정의
+        self.relu = nn.ReLU()  # activation 정의
 
     def forward(self, inputs):
-        # 데이터 흐름을 정의 
+        # 데이터 흐름을 정의
         net = self.hidden_layer1(inputs)
         net = self.relu(net)
 
@@ -202,15 +205,13 @@ class AdverRegressionModel(nn.Module):
         return outputs
 
 model2 = AdverRegressionModel()
-'''
+"""
 print(model2)
 # print(model2.parameters())
 for param in model2.parameters():
     print(param)
-'''
-
-print()
-for name, param in model2.named_parameters(): # 각 파라미터의 이름
+"""
+for name, param in model2.named_parameters():  # 각 파라미터의 이름 확인
     print(name, ":", param.data)
 
 # optimizer는 다시 선언
@@ -228,10 +229,10 @@ ev_loss2, pred_tensor2 = evaluate_modelFunc(
     x_test_tensor=x_test_tensor, y_test_tensor=y_test_tensor, 
     criterion=criterion
 )
-print('ev_loss2 :', ev_loss2)
+print('ev_loss2 : ', ev_loss2)
 
 pre2 = pred_tensor2.numpy()
 actual = y_test_tensor.numpy()
-print('MSE :', ev_loss2)
-print('RMSE :', np.sqrt(ev_loss2))
-print('설명력:', r2_score(actual, pre2))
+print('MSE : ', ev_loss2)
+print('RMSE : ', np.sqrt(ev_loss2))
+print('설명력 : ', r2_score(actual, pre2))
