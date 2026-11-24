@@ -7,7 +7,9 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 import matplotlib.pyplot as plt
+import koreanize_matplotlib
 from sklearn.metrics import r2_score
+
 
 # 데이터 : feature, label은 2차원 형태로 입력
 # pytorch의 linear 계층은 입력 shape을 보통 (데이터 갯수, feature수) 형태로 받음
@@ -54,9 +56,24 @@ for epoch in range(epoch):
     indices = torch.randperm(len(x_tensor)) # x_data 인덱스를 무작위 순서로 섞음
     total_loss = 0
 
-    for idx in indices:
-        x_batch = x_tensor[idx].unsqueeze(0)    # [3,4] -> [[3,4]]
-        y_batch = y_tensor[idx].unsqueeze(0)    
+    # for idx in indices:
+    #     x_batch = x_tensor[idx].unsqueeze(0)    # [3,4] -> [[3,4]]
+    #     y_batch = y_tensor[idx].unsqueeze(0)    
+
+    for i in range(0, len(x_tensor), batch_size):
+        # batch_size만큼 인덱스를 슬라이싱
+        batch_indices = indices[i:i + batch_size]
+
+        x_batch = x_tensor[batch_indices]
+        y_batch = y_tensor[batch_indices]
+
+        # 첫번째 epoch에서 배치 구성 확인하기 (batch_size 만큼 데이터 묶여 처리)
+        if epoch == 0:
+            print('batch_indices :', batch_indices)
+            print('x_batch :', x_batch)
+            print('y_batch :', y_batch)
+            print('x_batch shape :', x_batch.shape)
+            print('~~~' * 10)
 
         pred = model(x_batch)  # 1) 예측값 계산 :  내부적으로 weight * x + bias 계산 
         loss = criterion(pred, y_batch) # 2) 손실값 계산(틀린 정도)
@@ -82,3 +99,23 @@ print('pred :', pred.ravel())
 print('real :', ydata.ravel())
 
 print('결정 계수(설명력) :', r2_score(ydata, pred)) # 0.8847981
+
+# 시간화
+plt.scatter(xdata, ydata, color='r', marker='o', label ='실제 데이터')
+plt.plot(xdata, pred, 'b--', label='예측회귀선')
+plt.xlabel('feature')
+plt.ylabel('label')
+plt.legend()
+plt.show()
+
+# 새로운 값으로 예측(추론단계)
+new_x = np.array([1.5, 5.7, -3.0], dtype='float32').reshape(-1, 1)
+new_x_tensor = torch.tensor(new_x, dtype = torch.float32)
+
+with torch.no_grad(): # 학습이 끝난 상태이므로 역전파x
+    new_pred_tensor = model(new_x_tensor)
+
+new_pred = new_pred_tensor.numpy()
+print('새값 예측결과 : ', new_pred.ravel()) #  [1.6230686  6.378912   0.43695736]
+
+
