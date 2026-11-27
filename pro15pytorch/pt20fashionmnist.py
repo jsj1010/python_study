@@ -1,4 +1,8 @@
 # Fashion-MNIST 데이터셋 분류 : MNIST와 구조는 동일
+
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
 import numpy as np
 import matplotlib.pyplot as plt
 import koreanize_matplotlib
