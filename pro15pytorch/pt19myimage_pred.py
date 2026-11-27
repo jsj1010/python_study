@@ -41,7 +41,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("사용 장치:", device)
 
 # 3. 이미지 읽기
-im = Image.open("num.png")
+im = Image.open("number.png")
 
 # 4. 이미지 크기 변경 및 흑백 변환
 # MNIST 데이터는 28 x 28 흑백 이미지이므로, 내가 그린 이미지도 같은 형태로 맞춘다.
