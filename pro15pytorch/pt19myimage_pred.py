@@ -3,6 +3,9 @@
 # 숫자 클래스를 예측한다.
 # 이 코드는 앞에서 학습했던 MNISTModel 구조와 저장된 mnist_model.pth 파일이 필요하다.
 
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
